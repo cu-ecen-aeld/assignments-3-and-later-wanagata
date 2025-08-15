@@ -20,6 +20,3 @@ exit 0
 #Exits with value 1 error and print statements if any of the arguments above were not specified
 
 #Creates a new file with name and path writefile with content writestr, overwriting any existing file and creating the path if it doesn’t exist. Exits with value 1 and error print statement if the file could not be created.
-
-git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"
