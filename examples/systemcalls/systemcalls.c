@@ -1,5 +1,8 @@
 #include "systemcalls.h"
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
 /**
  * @param cmd the command to execute with system()
  * @return true if the command in @param cmd was executed
@@ -52,17 +55,46 @@ bool do_exec(int count, ...)
     command[count] = NULL;
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
-    command[count] = command[count];
+    // command[count] = command[count];
 
-/*
- * TODO:
- *   Execute a system command by calling fork, execv(),
- *   and wait instead of system (see LSP page 161).
- *   Use the command[0] as the full path to the command to execute
- *   (first argument to execv), and use the remaining arguments
- *   as second argument to the execv() command.
- *
-*/
+    /*
+     * TODO:
+     *   Execute a system command by calling fork, execv(),
+     *   and wait instead of system (see LSP page 161).
+     *   Use the command[0] as the full path to the command to execute
+     *   (first argument to execv), and use the remaining arguments
+     *   as second argument to the execv() command.
+     *
+     */
+
+    // int ret = 0;
+    pid_t pid = fork();
+    if (pid == 0)
+    {
+        // child
+        execv(command[0], command);
+        perror("execv failed");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid < 0)
+    {
+        perror("can't fork");
+    }
+    else
+    {
+        // parent
+        int status;
+        if (waitpid(pid, &status, 0) == -1)
+        {
+            perror("waitpid failed");
+            return false;
+        }
+        //need to check status of child execv before return
+        if (WIFEXITED(status) && WEXITSTATUS(status) != 0) 
+        {
+            return false; // child failed
+        }
+    }
 
     va_end(args);
 
