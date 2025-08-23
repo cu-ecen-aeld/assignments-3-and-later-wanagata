@@ -35,6 +35,16 @@ if [ ! -e ${OUTDIR}/linux-stable/arch/${ARCH}/boot/Image ]; then
     git checkout ${KERNEL_VERSION}
 
     # TODO: Add your kernel build steps here
+    # deep clearn kernel 
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE mrproper
+    # QEMU virt machine (defconfig)
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE defconfig
+    # Build the kernel (vmlinux / Image)
+    make -j4 ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE all
+    # Build any kernel modules
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE modules
+    # Build the devicetree
+    make ARCH=$ARCH CROSS_COMPILE=$CROSS_COMPILE dtbs
 fi
 
 echo "Adding the Image in outdir"
