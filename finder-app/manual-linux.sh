@@ -62,7 +62,7 @@ fi
 # TODO: Create necessary base directories
 echo "[Script] Create necessary base directories"
 mkdir -p ${OUTDIR}/rootfs/{bin,dev,etc,home,lib,lib64,proc,sbin,sys,tmp,var/log,usr/{bin,lib,sbin}}
-tree ${OUTDIR}/rootfs
+# tree ${OUTDIR}/rootfs 
 
 cd "$OUTDIR"
 if [ ! -d "${OUTDIR}/busybox" ]
