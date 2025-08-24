@@ -1,3 +1,4 @@
+#!/bin/sh
 if [ "$#" -ne 2 ]; then
     echo "Any of the parameters above were not specified and first arg should be a directory"
     exit 1
